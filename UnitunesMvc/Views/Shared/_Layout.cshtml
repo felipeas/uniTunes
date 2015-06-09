@@ -12,19 +12,13 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 @Html.ActionLink("Unitunes", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Músicas", "Index", "Musica")</li>
-                    <li>@Html.ActionLink("Livros", "Index", "Livro")</li>
-                    <li>@Html.ActionLink("Video", "Index", "Video")</li>
+                    <li>@Html.ActionLink("Músicas", "Index", "Musicas")</li>
+                    <li>@Html.ActionLink("Livros", "Index", "Livros")</li>
+                    <li>@Html.ActionLink("Video", "Index", "Videos")</li>
                     <li>@Html.ActionLink("Podcasts", "Index", "Podcasts")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

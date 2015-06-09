@@ -108,3 +108,5 @@ D:\Developer\UnitunesMvc\UnitunesMvc\bin\Microsoft.Owin.Security.MicrosoftAccoun
 D:\Developer\UnitunesMvc\UnitunesMvc\obj\Debug\UnitunesMvc.csprojResolveAssemblyReference.cache
 D:\Developer\UnitunesMvc\UnitunesMvc\obj\Debug\UnitunesMvc.dll
 D:\Developer\UnitunesMvc\UnitunesMvc\obj\Debug\UnitunesMvc.pdb
+D:\Developer\UnitunesMvc\UnitunesMvc\bin\UnitunesMvc.Core.dll
+D:\Developer\UnitunesMvc\UnitunesMvc\bin\UnitunesMvc.Core.pdb
