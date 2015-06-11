@@ -47,6 +47,7 @@ namespace UnitunesMvc.Core.Database.Entities
         public String Senha { get; set; }
 
         [NotMapped]
+        [Display(Name = "Confirmação Senha")]
         [Required(ErrorMessage = "Confirme a senha")]
         [StringLength(30, ErrorMessage = "No mínimo 6 e no máximo 30 caracteres", MinimumLength = 6)]
         [DataType(DataType.Password)]

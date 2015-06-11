@@ -70,6 +70,5 @@ D:\Developer\UnitunesMvc\UnitunesMvc.Core\bin\Debug\Remotion.Linq.xml
 D:\Developer\UnitunesMvc\UnitunesMvc.Core\bin\Debug\System.Collections.Immutable.xml
 D:\Developer\UnitunesMvc\UnitunesMvc.Core\bin\Debug\System.Interactive.Async.xml
 D:\Developer\UnitunesMvc\UnitunesMvc.Core\bin\Debug\System.Reflection.Metadata.xml
-D:\Developer\UnitunesMvc\UnitunesMvc.Core\bin\Debug\Newtonsoft.Json.xml
 D:\Developer\UnitunesMvc\UnitunesMvc.Core\obj\Debug\UnitunesMvc.Core.Migrations.Initial.resources
 D:\Developer\UnitunesMvc\UnitunesMvc.Core\obj\Debug\UnitunesMvc.Core.csproj.GenerateResource.Cache

@@ -16,7 +16,7 @@ namespace UnitunesMvc.Core.Database.Entities
         [Required]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
-
+        
         [Required]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }

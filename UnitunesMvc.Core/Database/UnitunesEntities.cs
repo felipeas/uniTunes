@@ -19,13 +19,16 @@ namespace UnitunesMvc.Core.Database.Entities
         public DbSet<Livro> Livros { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
+        static UnitunesEntities()
+        {
+            System.Data.Entity.Database.SetInitializer(new DropCreateDatabaseIfModelChanges<UnitunesEntities>());
+        }
+
         public UnitunesEntities()
             : base(MontarStringConexao())
         {
             this.Configuration.ValidateOnSaveEnabled = false;
-            System.Data.Entity.Database.SetInitializer(new DropCreateDatabaseIfModelChanges<UnitunesEntities>());
         }
-
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,7 +46,6 @@ namespace UnitunesMvc.Core.Database.Entities
 
             return cs.ToString();
         }
-
     }
 }
 

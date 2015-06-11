@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using UnitunesMvc.Core.Database.Entities;
 
 namespace UnitunesMvc.Controllers
@@ -35,8 +36,8 @@ namespace UnitunesMvc.Controllers
             return View(usuario);
         }
 
-        // GET: Usuarios/Create
-        public ActionResult Create()
+        // GET: Usuarios/Register
+        public ActionResult Register()
         {
             return View();
         }
@@ -46,7 +47,7 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PrimeiroNome,UltimoNome,Email,Tipo,Senha")] Usuario usuario)
+        public ActionResult Register([Bind(Include = "Id,PrimeiroNome,UltimoNome,Email,Tipo,Senha,ConfirmacaoSenha")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -113,6 +114,33 @@ namespace UnitunesMvc.Controllers
             db.Usuarios.Remove(usuario);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+   
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(Usuario usuario)
+        {
+            
+            var v = db.Usuarios.Where(a => a.Email.Equals(usuario.Email) && a.Senha.Equals(usuario.Senha)).FirstOrDefault();
+            if (v != null)
+            {
+                FormsAuthentication.SetAuthCookie(usuario.Email, false);
+                return RedirectToAction("Index", "Home");
+            }
+            
+            return View(usuario);
+        }
+
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)
