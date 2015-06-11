@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,18 +8,35 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using UnitunesMvc.Core.Database.Entities;
+using UnitunesMvc.Models;
 
 namespace UnitunesMvc.Controllers
 {
+    [Authorize]
     public class VideosController : Controller
     {
         private UnitunesEntities db = new UnitunesEntities();
+        private TipoMidia m_tipoMidia = TipoMidia.Video;
+        private TipoStreaming m_tipoStreaming = TipoStreaming.Video;
 
         // GET: Videos
-        public ActionResult Index()
+        public ActionResult Index(string pesquisa, string categoria)
         {
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
+
             var videos = db.Streamings.Where(
-                video => video.Tipo == TipoStreaming.Video);
+                video => video.Tipo == m_tipoStreaming);
+
+            if (!String.IsNullOrEmpty(pesquisa))
+            {
+                videos = videos.Where(s => s.Descricao.Contains(pesquisa) || s.Nome.Contains(pesquisa));
+            }
+
+            if (!String.IsNullOrEmpty(categoria))
+            {
+                var categoriaInt = Convert.ToInt32(categoria);
+                videos = videos.Where(s => s.CategoriaId == categoriaInt);
+            }
             return View(videos.ToList());
         }
 
@@ -40,6 +58,7 @@ namespace UnitunesMvc.Controllers
         // GET: Videos/Create
         public ActionResult Create()
         {
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             return View();
         }
 
@@ -48,9 +67,24 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Duracao,Tipo,Nome,Descricao,Preco,Imagem,Conteudo")] Streaming streaming)
+        public ActionResult Create([Bind(Include = "Id,Duracao,Tipo,Nome,Descricao,Preco,CategoriaId")] Streaming streaming,  HttpPostedFileBase imagem, HttpPostedFileBase conteudo)
         {
-            streaming.Tipo = TipoStreaming.Video;
+            streaming.Tipo = m_tipoStreaming;
+            streaming.Autor = new LoginViewModel().Buscar(User.Identity.Name);
+            if (imagem != null && imagem.ContentLength > 0)
+            {
+                streaming.Imagem = new ArquivoBinario();
+                streaming.Imagem.Bytes = new byte[imagem.ContentLength];
+                imagem.InputStream.Read(streaming.Imagem.Bytes, 0, imagem.ContentLength);
+            }
+
+            if (conteudo != null && conteudo.ContentLength > 0)
+            {
+                streaming.Conteudo = new ArquivoBinario();
+                streaming.Conteudo.Bytes = new byte[conteudo.ContentLength];
+                conteudo.InputStream.Read(streaming.Conteudo.Bytes, 0, conteudo.ContentLength);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Streamings.Add(streaming);
@@ -64,6 +98,7 @@ namespace UnitunesMvc.Controllers
         // GET: Videos/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -75,13 +110,10 @@ namespace UnitunesMvc.Controllers
             }
             return View(streaming);
         }
-
-        // POST: Videos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Duracao,Tipo,Nome,Descricao,Preco,Imagem,Conteudo")] Streaming streaming)
+        public ActionResult Edit([Bind(Include = "Id,Duracao,Tipo,Nome,Descricao,Preco,Imagem,Conteudo,CategoriaId")] Streaming streaming)
         {
             if (ModelState.IsValid)
             {

@@ -30,7 +30,7 @@ namespace UnitunesMvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Error = "Form is not valid; please review and try again.";
+                ViewBag.Error = "Dados inválidos";
                 return View("Login");
             }
 

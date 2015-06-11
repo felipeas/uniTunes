@@ -184,8 +184,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Entities\Album.cs" />
+    <Compile Include="Database\Entities\ArquivoBinario.cs" />
     <Compile Include="Database\Entities\Autor.cs" />
     <Compile Include="Database\Entities\Categoria.cs" />
+    <Compile Include="Database\Entities\Conta.cs" />
     <Compile Include="Database\Entities\Livro.cs" />
     <Compile Include="Database\Entities\Midia.cs" />
     <Compile Include="Database\Entities\Streaming.cs" />

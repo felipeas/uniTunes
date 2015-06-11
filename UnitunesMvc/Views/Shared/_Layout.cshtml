@@ -12,14 +12,22 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                @Html.ActionLink("Unitunes", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href='@Url.Action("Index", "Home")' class="navbar-brand">
+                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    Unitunes
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Músicas", "Index", "Musicas")</li>
+                    <li>@Html.ActionLink("Albums", "Index", "Albums")</li>
                     <li>@Html.ActionLink("Livros", "Index", "Livros")</li>
                     <li>@Html.ActionLink("Video", "Index", "Videos")</li>
                     <li>@Html.ActionLink("Podcasts", "Index", "Podcasts")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

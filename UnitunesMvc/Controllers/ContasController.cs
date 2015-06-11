@@ -6,146 +6,116 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using UnitunesMvc.Core.Database.Entities;
+using UnitunesMvc.Models;
 
 namespace UnitunesMvc.Controllers
 {
-    public class UsuariosController : Controller
+    [Authorize]
+    public class ContasController : Controller
     {
         private UnitunesEntities db = new UnitunesEntities();
-
-        // GET: Usuarios
+       
+        // GET: Contas
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            return RedirectToAction("Details");
         }
 
-        // GET: Usuarios/Details/5
-        public ActionResult Details(int? id)
+        // GET: Contas/Details/5
+        public ActionResult Details()
         {
-            if (id == null)
+            var contaId = new LoginViewModel().Buscar(User.Identity.Name);
+            if (contaId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Conta conta = db.Contas.Find(contaId);
+            if (conta == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(conta);
         }
 
-        // GET: Usuarios/Register
-        public ActionResult Register()
+        // GET: Contas/Create
+        public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: Contas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "Id,PrimeiroNome,UltimoNome,Email,Tipo,Senha,ConfirmacaoSenha")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "Id,Saldo")] Conta conta)
         {
             if (ModelState.IsValid)
             {
-                db.Usuarios.Add(usuario);
+                db.Contas.Add(conta);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(usuario);
+            return View(conta);
         }
 
-        // GET: Usuarios/Edit/5
+        // GET: Contas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Conta conta = db.Contas.Find(id);
+            if (conta == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(conta);
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: Contas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PrimeiroNome,UltimoNome,Email,Tipo,Senha")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "Id,Saldo")] Conta conta)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
+                db.Entry(conta).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(usuario);
+            return View(conta);
         }
 
-        // GET: Usuarios/Delete/5
+        // GET: Contas/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Conta conta = db.Contas.Find(id);
+            if (conta == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(conta);
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: Contas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuario);
+            Conta conta = db.Contas.Find(id);
+            db.Contas.Remove(conta);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-   
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(Usuario usuario)
-        {
-            
-            var v = db.Usuarios.Where(a => a.Email.Equals(usuario.Email) && a.Senha.Equals(usuario.Senha)).FirstOrDefault();
-            if (v != null)
-            {
-                FormsAuthentication.SetAuthCookie(usuario.Email, false);
-                return RedirectToAction("Index", "Home");
-            }
-            
-            return View(usuario);
-        }
-
-        public ActionResult LogOff()
-        {
-            FormsAuthentication.SignOut();
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public Usuario Buscar(string email)
-        {
-            return db.Usuarios.Where(a => a.Email.Equals(email)).FirstOrDefault();
         }
 
         protected override void Dispose(bool disposing)

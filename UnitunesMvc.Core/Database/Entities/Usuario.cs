@@ -40,6 +40,8 @@ namespace UnitunesMvc.Core.Database.Entities
         [Display(Name = "Tipo")]
         public TipoUsuario Tipo { get; set; }
 
+        public Conta Conta { get; set; }
+
         [Required]
         [Display(Name = "Senha")]
         [StringLength(30, ErrorMessage = "No mínimo 6 e no máximo 30 caracteres", MinimumLength = 6)]

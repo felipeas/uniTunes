@@ -8,6 +8,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UnitunesMvc.Core.Database.Entities
 {
+    public enum TipoMidia
+    {
+        [Display(Name = "Música")]
+        Musica,
+        [Display(Name = "Video")]
+        Video,
+        [Display(Name = "Podcast")]
+        Podcast,
+        [Display(Name = "Livro")]
+        Livro
+    }
+
     public abstract class Midia
     {
         [Key]
@@ -16,7 +28,7 @@ namespace UnitunesMvc.Core.Database.Entities
         [Required]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
-        
+
         [Required]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
@@ -26,12 +38,18 @@ namespace UnitunesMvc.Core.Database.Entities
         public double Preco { get; set; }
 
         [Display(Name = "Imagem")]
-        public Byte[] Imagem { get; set; }
+        public ArquivoBinario Imagem { get; set; }
+
+        [ForeignKey("Categoria")]
+        [Display(Name = "Categoria")]
+        public int CategoriaId { get; set; }
 
         [Display(Name = "Categoria")]
-        public Categoria Categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
 
         [Display(Name = "Conteúdo")]
-        public Byte[] Conteudo { get; set; }
+        public ArquivoBinario Conteudo { get; set; }
+
+        public Usuario Autor { get;set;}
     }
 }

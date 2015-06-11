@@ -7,17 +7,32 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using UnitunesMvc.Core.Database.Entities;
+using UnitunesMvc.Models;
 
 namespace UnitunesMvc.Controllers
 {
+    [Authorize]
     public class LivrosController : Controller
     {
         private UnitunesEntities db = new UnitunesEntities();
-
+        private TipoMidia m_tipoMidia = TipoMidia.Livro;
+  
         // GET: Livros
-        public ActionResult Index()
+        public ActionResult Index(string pesquisa, string categoria)
         {
-            return View(db.Livros.ToList());
+            var livros =  from l in db.Livros select l;
+
+            if (!String.IsNullOrEmpty(pesquisa))
+            {
+                livros = livros.Where(s => s.Descricao.Contains(pesquisa) || s.Nome.Contains(pesquisa));
+            }
+            if (!String.IsNullOrEmpty(categoria))
+            {
+                var categoriaInt = Convert.ToInt32(categoria);
+                livros = livros.Where(s => s.CategoriaId == categoriaInt);
+            }
+
+            return View(livros.ToList());
         }
 
         // GET: Livros/Details/5
@@ -46,8 +61,21 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,NumeroPaginas,Nome,Descricao,Preco,Imagem,Conteudo")] Livro livro)
+        public ActionResult Create([Bind(Include = "Id,NumeroPaginas,Nome,Descricao,Preco,CategoriaId")] Livro livro, HttpPostedFileBase imagem, HttpPostedFileBase conteudo)
         {
+            livro.Autor = new LoginViewModel().Buscar(User.Identity.Name);
+            if (imagem != null && imagem.ContentLength > 0)
+            {
+                livro.Imagem.Bytes = new byte[imagem.ContentLength];
+                imagem.InputStream.Read(livro.Imagem.Bytes, 0, imagem.ContentLength);
+            }
+
+            if (conteudo != null && conteudo.ContentLength > 0)
+            {
+                livro.Conteudo.Bytes = new byte[conteudo.ContentLength];
+                conteudo.InputStream.Read(livro.Conteudo.Bytes, 0, conteudo.ContentLength);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Livros.Add(livro);
@@ -78,7 +106,7 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumeroPaginas,Nome,Descricao,Preco,Imagem,Conteudo")] Livro livro)
+        public ActionResult Edit([Bind(Include = "Id,NumeroPaginas,Nome,Descricao,Preco,Imagem,Conteudo,CategoriaId")] Livro livro)
         {
             if (ModelState.IsValid)
             {
