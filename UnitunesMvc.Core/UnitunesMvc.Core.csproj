@@ -183,6 +183,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Entities\Favoritos.cs" />
     <Compile Include="Database\Entities\Album.cs" />
     <Compile Include="Database\Entities\ArquivoBinario.cs" />
     <Compile Include="Database\Entities\Autor.cs" />

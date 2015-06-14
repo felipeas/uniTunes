@@ -40,7 +40,10 @@ namespace UnitunesMvc.Core.Database.Entities
         [Display(Name = "Tipo")]
         public TipoUsuario Tipo { get; set; }
 
-        public Conta Conta { get; set; }
+        [ForeignKey("Conta")]
+        [Display(Name = "Conta")]
+        public int ContaId { get; set; }
+        public virtual Conta Conta { get; set; }
 
         [Required]
         [Display(Name = "Senha")]

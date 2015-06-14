@@ -11,10 +11,14 @@ namespace UnitunesMvc.Controllers
     public class HomeController : Controller
     {
         private UnitunesEntities db = new UnitunesEntities();
-        [Authorize]
+       
         public ActionResult Index()
         {
             //db.feed();
+            if (!User.Identity.IsAuthenticated )
+            {
+                return RedirectToAction("Index","Login");
+            }
             return View();
         }
 

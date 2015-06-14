@@ -25,8 +25,8 @@ namespace UnitunesMvc.Controllers
         // GET: Contas/Details/5
         public ActionResult Details()
         {
-            var contaId = new LoginViewModel().Buscar(User.Identity.Name);
-            if (contaId == null)
+            var contaId = new LoginViewModel().Buscar(User.Identity.Name).ContaId;
+            if (contaId == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -81,11 +81,14 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Saldo")] Conta conta)
-        {
+        public ActionResult Edit([Bind(Include = "Id")] Conta conta, double? valor)
+        {   
+            if (valor.HasValue && valor > 0)
+            {   
+                db.Contas.Find(conta.Id).Saldo += (double)valor;
+            }
             if (ModelState.IsValid)
             {
-                db.Entry(conta).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

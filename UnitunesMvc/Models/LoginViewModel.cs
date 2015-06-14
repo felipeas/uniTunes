@@ -22,11 +22,6 @@ namespace UnitunesMvc.Models
         public Usuario Buscar(string email)
         {
             return db.Usuarios.Where(a => a.Email.Equals(email)).FirstOrDefault();
-        }
-            
+        }    
     }
-
-  
-
-
 }

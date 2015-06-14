@@ -20,6 +20,7 @@ namespace UnitunesMvc.Controllers
         // GET: Livros
         public ActionResult Index(string pesquisa, string categoria)
         {
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             var livros =  from l in db.Livros select l;
 
             if (!String.IsNullOrEmpty(pesquisa))
@@ -53,6 +54,7 @@ namespace UnitunesMvc.Controllers
         // GET: Livros/Create
         public ActionResult Create()
         {
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             return View();
         }
 
@@ -89,6 +91,7 @@ namespace UnitunesMvc.Controllers
         // GET: Livros/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -99,6 +102,20 @@ namespace UnitunesMvc.Controllers
                 return HttpNotFound();
             }
             return View(livro);
+        }
+
+        // GET: Livros/Edit/5
+        public ActionResult AddFavorito(int? id)
+        {
+            var usuario = new LoginViewModel().Buscar(User.Identity.Name);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //var favoritos = db.Favoritos.Where(fav => fav.UsuarioId == usuario.Id).FirstOrDefault();
+            //favoritos.addLivro(db.Livros.Find(id));
+            
+            return View();
         }
 
         // POST: Livros/Edit/5

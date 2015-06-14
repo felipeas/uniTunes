@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UnitunesMvc.Core.Database.Entities;
+using UnitunesMvc.Models;
 
 namespace UnitunesMvc.Controllers
 {
@@ -18,7 +19,12 @@ namespace UnitunesMvc.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            var usuario = new LoginViewModel().Buscar(User.Identity.Name);
+            if (usuario != null && usuario.Tipo == TipoUsuario.Administrador)
+            {
+                return View(db.Usuarios.ToList());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Usuarios/Details/5
@@ -51,6 +57,7 @@ namespace UnitunesMvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.Conta = new Conta();
                 db.Usuarios.Add(usuario);
                 db.SaveChanges();
                 return RedirectToAction("Index");

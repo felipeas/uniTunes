@@ -243,11 +243,9 @@
     <Content Include="Views\Albums\Details.cshtml" />
     <Content Include="Views\Albums\Edit.cshtml" />
     <Content Include="Views\Albums\Index.cshtml" />
-    <Content Include="Views\Contas\Create.cshtml" />
     <Content Include="Views\Contas\Delete.cshtml" />
     <Content Include="Views\Contas\Details.cshtml" />
     <Content Include="Views\Contas\Edit.cshtml" />
-    <Content Include="Views\Contas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

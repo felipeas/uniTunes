@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System;
 
 namespace UnitunesMvc.Core.Database.Entities
 {
@@ -18,9 +19,9 @@ namespace UnitunesMvc.Core.Database.Entities
         public DbSet<Streaming> Streamings { get ; set; }
         public DbSet<Livro> Livros { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
-
         public DbSet<ArquivoBinario> Binarios { get; set; }
         public DbSet<Conta> Contas { get; set; }
+        //public DbSet<Favoritos> Favoritos { get; set; }
 
         static UnitunesEntities()
         {
@@ -31,6 +32,7 @@ namespace UnitunesMvc.Core.Database.Entities
             : base(MontarStringConexao())
         {
             this.Configuration.ValidateOnSaveEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -52,35 +54,101 @@ namespace UnitunesMvc.Core.Database.Entities
 
         public void feed()
         {
-            this.Usuarios.Add(new Usuario { PrimeiroNome = "Admin", UltimoNome = "Admin", Email = "admin@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Administrador, Conta = new Conta { Saldo = 0 } });
-            this.Usuarios.Add(new Usuario { PrimeiroNome = "Academico", UltimoNome = "Random", Email = "academico@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Academico, Conta = new Conta { Saldo = 0 } });
-            this.Usuarios.Add(new Usuario { PrimeiroNome = "Autor", UltimoNome = "Random", Email = "autor@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Academico, Conta = new Conta { Saldo = 0 } });
+            try
+            {
+                inserirUsuarios();
+                inserirCategorias();
+                inserirFilmes();
+                inserirMusicas();
+                inserirPodcasts();
+                inserirLivros();
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.Print(ex.Message);
+            } 
+            finally
+            {
+                this.SaveChanges();
+            }
+        }
 
-            this.Categorias.Add(new Categoria { Nome = "Industrial Rock", Tipo = TipoMidia.Musica });   //1         
-            this.Categorias.Add(new Categoria { Nome = "MPB", Tipo = TipoMidia.Musica });               //2           
-            this.Categorias.Add(new Categoria { Nome = "Gospel", Tipo = TipoMidia.Musica });            //3
-            this.Categorias.Add(new Categoria { Nome = "Alternative Rock", Tipo = TipoMidia.Musica });  //4
-            this.Categorias.Add(new Categoria { Nome = "Pop", Tipo = TipoMidia.Musica });               //5
-            this.Categorias.Add(new Categoria { Nome = "Tecnobrega", Tipo = TipoMidia.Musica });        //6
+        private void inserirMusicas()
+        {
+            this.Streamings.Add(new Streaming
+            {
+                Nome = "Starway to heaven",
+                Tipo = TipoStreaming.Musica,
+                Descricao = ".",
+                Duracao = 6,
+                CategoriaId = 23
+            });
 
-            this.Categorias.Add(new Categoria { Nome = "Exatas", Tipo = TipoMidia.Livro });             //7
-            this.Categorias.Add(new Categoria { Nome = "Humanas", Tipo = TipoMidia.Livro });            //8 
-            this.Categorias.Add(new Categoria { Nome = "Fantástica", Tipo = TipoMidia.Livro });         //9
-            this.Categorias.Add(new Categoria { Nome = "Direito", Tipo = TipoMidia.Livro });            //10
-            this.Categorias.Add(new Categoria { Nome = "Software", Tipo = TipoMidia.Livro });           //11
+            this.Streamings.Add(new Streaming
+            {
+                Nome = "Venus",
+                Tipo = TipoStreaming.Musica,
+                Descricao = ".",
+                Duracao = 3,
+                CategoriaId = 13
+            });
 
-            this.Categorias.Add(new Categoria { Nome = "Sci-fi", Tipo = TipoMidia.Video });             //12
-            this.Categorias.Add(new Categoria { Nome = "Ação", Tipo = TipoMidia.Video });               //13
-            this.Categorias.Add(new Categoria { Nome = "Drama", Tipo = TipoMidia.Video });              //14
-            this.Categorias.Add(new Categoria { Nome = "Suspense", Tipo = TipoMidia.Video });           //15
-            this.Categorias.Add(new Categoria { Nome = "Terror", Tipo = TipoMidia.Video });             //16
-            this.Categorias.Add(new Categoria { Nome = "Thriler", Tipo = TipoMidia.Video });            //17
+            this.Streamings.Add(new Streaming
+            {
+                Nome = "Buzios do coração",
+                Tipo = TipoStreaming.Musica,
+                Descricao = ".",
+                Duracao = 4,
+                CategoriaId = 6
+            });
 
-            this.Categorias.Add(new Categoria { Nome = "Arte", Tipo = TipoMidia.Podcast });             //18
-            this.Categorias.Add(new Categoria { Nome = "Games", Tipo = TipoMidia.Podcast });            //19
-            this.Categorias.Add(new Categoria { Nome = "Ciência", Tipo = TipoMidia.Podcast });          //20
-            this.Categorias.Add(new Categoria { Nome = "Tecnologia", Tipo = TipoMidia.Podcast });       //21
-            this.Categorias.Add(new Categoria { Nome = "Filmes", Tipo = TipoMidia.Podcast });           //22
+        }
+
+        private void inserirLivros()
+        {
+
+            this.Livros.Add(new Livro
+            {
+                Nome = "Harry Potter",
+                Descricao = ".",
+                NumeroPaginas = 323,
+                CategoriaId = 9
+            });
+
+            this.Livros.Add(new Livro
+            {
+                Nome = "Design Patterns: Elements of Reusable Object-Oriented Software",
+                Descricao = "gof",
+                NumeroPaginas = 555,
+                CategoriaId = 11
+            });
+
+        }
+
+        private void inserirPodcasts()
+        {
+            this.Streamings.Add(new Streaming
+            {
+                Nome = "Nerdcast #123",
+                Tipo = TipoStreaming.Podcast,
+                Descricao = ".",
+                Duracao = 55,
+                CategoriaId = 19
+            });
+
+            this.Streamings.Add(new Streaming
+            {
+                Nome = "Rapaduracast #123",
+                Tipo = TipoStreaming.Podcast,
+                Descricao = ".",
+                Duracao = 55,
+                CategoriaId = 22
+            });
+
+        }
+
+        private void inserirFilmes()
+        {
 
             this.Streamings.Add(new Streaming
             {
@@ -108,7 +176,44 @@ namespace UnitunesMvc.Core.Database.Entities
                 Duracao = 220,
                 CategoriaId = 12
             });
-            this.SaveChanges();
+        }
+
+        private void inserirCategorias()
+        {
+            this.Categorias.Add(new Categoria { Nome = "Industrial Rock", Tipo = TipoMidia.Musica });   //1         
+            this.Categorias.Add(new Categoria { Nome = "MPB", Tipo = TipoMidia.Musica });               //2           
+            this.Categorias.Add(new Categoria { Nome = "Gospel", Tipo = TipoMidia.Musica });            //3
+            this.Categorias.Add(new Categoria { Nome = "Alternative Rock", Tipo = TipoMidia.Musica });  //4
+            this.Categorias.Add(new Categoria { Nome = "Pop", Tipo = TipoMidia.Musica });               //5
+            this.Categorias.Add(new Categoria { Nome = "Tecnobrega", Tipo = TipoMidia.Musica });        //6
+
+            this.Categorias.Add(new Categoria { Nome = "Exatas", Tipo = TipoMidia.Livro });             //7
+            this.Categorias.Add(new Categoria { Nome = "Humanas", Tipo = TipoMidia.Livro });            //8 
+            this.Categorias.Add(new Categoria { Nome = "Fantástica", Tipo = TipoMidia.Livro });         //9
+            this.Categorias.Add(new Categoria { Nome = "Direito", Tipo = TipoMidia.Livro });            //10
+            this.Categorias.Add(new Categoria { Nome = "Software", Tipo = TipoMidia.Livro });           //11
+
+            this.Categorias.Add(new Categoria { Nome = "Sci-fi", Tipo = TipoMidia.Video });             //12
+            this.Categorias.Add(new Categoria { Nome = "Ação", Tipo = TipoMidia.Video });               //13
+            this.Categorias.Add(new Categoria { Nome = "Drama", Tipo = TipoMidia.Video });              //14
+            this.Categorias.Add(new Categoria { Nome = "Suspense", Tipo = TipoMidia.Video });           //15
+            this.Categorias.Add(new Categoria { Nome = "Terror", Tipo = TipoMidia.Video });             //16
+            this.Categorias.Add(new Categoria { Nome = "Thriler", Tipo = TipoMidia.Video });            //17
+
+            this.Categorias.Add(new Categoria { Nome = "Arte", Tipo = TipoMidia.Podcast });             //18
+            this.Categorias.Add(new Categoria { Nome = "Games", Tipo = TipoMidia.Podcast });            //19
+            this.Categorias.Add(new Categoria { Nome = "Ciência", Tipo = TipoMidia.Podcast });          //20
+            this.Categorias.Add(new Categoria { Nome = "Tecnologia", Tipo = TipoMidia.Podcast });       //21
+            this.Categorias.Add(new Categoria { Nome = "Filmes", Tipo = TipoMidia.Podcast });           //22
+
+            this.Categorias.Add(new Categoria { Nome = "Classic Rock", Tipo = TipoMidia.Musica });      //23
+        }
+
+        private void inserirUsuarios()
+        {
+            this.Usuarios.Add(new Usuario { PrimeiroNome = "Admin", UltimoNome = "Admin", Email = "admin@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Administrador, Conta = new Conta { Saldo = 0 } });
+            this.Usuarios.Add(new Usuario { PrimeiroNome = "Academico", UltimoNome = "Random", Email = "academico@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Academico, Conta = new Conta { Saldo = 0 } });
+            this.Usuarios.Add(new Usuario { PrimeiroNome = "Autor", UltimoNome = "Random", Email = "autor@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Academico, Conta = new Conta { Saldo = 0 } });
         }
     }
 }

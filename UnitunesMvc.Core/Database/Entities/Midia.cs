@@ -35,6 +35,7 @@ namespace UnitunesMvc.Core.Database.Entities
 
         [Required]
         [Display(Name = "Preço")]
+        [Range(0.01, Double.MaxValue)]
         public double Preco { get; set; }
 
         [Display(Name = "Imagem")]
