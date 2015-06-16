@@ -20,8 +20,10 @@ namespace UnitunesMvc.Controllers
         {
             var usuario = new LoginViewModel().Buscar(User.Identity.Name);
             var car = from c in db.Carrinhos.Include(x => x.Items) where c.UsuarioId == usuario.Id select c;
-            var items = car.FirstOrDefault().Items.ToList();
-            return View(items);
+
+            var items = from ic in db.CarrinhoItems.Include(x => x.Midia) where ic.CarrinhoId == car.FirstOrDefault().Id select ic;
+            
+            return View(items.ToList());
         }
 
         public ActionResult Add(int? id)

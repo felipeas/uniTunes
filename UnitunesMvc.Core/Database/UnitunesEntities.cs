@@ -8,7 +8,7 @@ namespace UnitunesMvc.Core.Database.Entities
 
     public class UnitunesEntities : DbContext
     {
-        private const string SERVIDOR = "localhost\\sqlexpress";
+        private const string SERVIDOR = ".";
         private const string DB_USER = "sa";
         private const string DB_PASS = "_43690";
         private const string DB_NAME = "Unitunes";
@@ -29,6 +29,7 @@ namespace UnitunesMvc.Core.Database.Entities
         public DbSet<Midia> Midias { get; set;}
 
         public DbSet<Carrinho> Carrinhos { get; set; }
+        public DbSet<CarrinhoItem> CarrinhoItems { get; set; }
 
         static UnitunesEntities()
         {
