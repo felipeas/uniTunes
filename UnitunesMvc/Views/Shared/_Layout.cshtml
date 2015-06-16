@@ -19,16 +19,29 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Favoritos <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Músicas", "Index", "Favoritos", new { tipo = 0 },null)</li>
+                            <li>@Html.ActionLink("Videos", "Index", "Favoritos", new { tipo = 1 }, null)</li>
+                            <li>@Html.ActionLink("Podcasts", "Index", "Favoritos", new { tipo = 2 }, null)</li>
+                            <li>@Html.ActionLink("Livros", "Index", "Favoritos", new { tipo = 3 }, null)</li>
+                        </ul>
+                    </li>
+
                     <li>@Html.ActionLink("Músicas", "Index", "Musicas")</li>
                     <li>@Html.ActionLink("Albums", "Index", "Albums")</li>
-                    <li>@Html.ActionLink("Livros", "Index", "Livros")</li>
                     <li>@Html.ActionLink("Video", "Index", "Videos")</li>
                     <li>@Html.ActionLink("Podcasts", "Index", "Podcasts")</li>
+                    <li>@Html.ActionLink("Livros", "Index", "Livros")</li>
+                    
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
                     }
+
                 </ul>
+                
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

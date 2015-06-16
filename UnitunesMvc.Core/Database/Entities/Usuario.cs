@@ -45,6 +45,8 @@ namespace UnitunesMvc.Core.Database.Entities
         public int ContaId { get; set; }
         public virtual Conta Conta { get; set; }
 
+        public virtual ICollection<UsuarioFavoritos> Favoritos { get; set; }
+
         [Required]
         [Display(Name = "Senha")]
         [StringLength(30, ErrorMessage = "No mínimo 6 e no máximo 30 caracteres", MinimumLength = 6)]
@@ -64,6 +66,12 @@ namespace UnitunesMvc.Core.Database.Entities
         public string FullName
         {
             get{ return UltimoNome + ", " + PrimeiroNome ;}
+        }
+
+        public Usuario()
+        {
+            this.Conta = new Conta();
+            this.Favoritos = new List<UsuarioFavoritos>();
         }
     }
 }

@@ -12,11 +12,11 @@ namespace UnitunesMvc.Core.Database.Entities
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Nome")]
+        [Display(Name = "Categoria")]
         public string Nome { get; set; }
 
         [Required]
         [Display(Name = "Tipo")]
         public TipoMidia Tipo { get; set; }
-}
+    }
 }

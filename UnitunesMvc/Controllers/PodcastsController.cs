@@ -24,7 +24,7 @@ namespace UnitunesMvc.Controllers
             ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
 
             var videos = db.Streamings.Where(
-                video => video.Tipo == m_tipoStreaming);
+                video => video.TipoStreaming == m_tipoStreaming).Include(x => x.Categoria);
 
             if (!String.IsNullOrEmpty(pesquisa))
             {
@@ -68,7 +68,8 @@ namespace UnitunesMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Duracao,Tipo,Nome,Descricao,Preco,CategoriaId")] Streaming streaming, HttpPostedFileBase imagem, HttpPostedFileBase conteudo)
         {
-            streaming.Tipo = m_tipoStreaming;
+            streaming.Tipo = m_tipoMidia;
+            streaming.TipoStreaming = m_tipoStreaming;
             streaming.Autor = new LoginViewModel().Buscar(User.Identity.Name);
             if (imagem != null && imagem.ContentLength > 0)
             {

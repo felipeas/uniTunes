@@ -13,8 +13,13 @@ namespace UnitunesMvc.Controllers
         private UnitunesEntities db = new UnitunesEntities();
        
         public ActionResult Index()
-        {
-            //db.feed();
+        {   
+            //se o banco estiver vazio por mudanca nos models alimenta ele 
+            if (db.Usuarios.Count() == 0)
+            {
+                db.feed(); 
+            }
+      
             if (!User.Identity.IsAuthenticated )
             {
                 return RedirectToAction("Index","Login");

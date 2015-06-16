@@ -10,8 +10,7 @@ namespace UnitunesMvc.Core.Database.Entities
 {
     public class Conta
     {
-        private UnitunesEntities db = new UnitunesEntities();
-
+        
         [Required]
         public int Id { get; set; }
 
@@ -19,6 +18,10 @@ namespace UnitunesMvc.Core.Database.Entities
         [Display(Name = "Saldo")]
         public double Saldo { get; set; }
         
-        public List<Midia> Carrinho { get; set; }
+        public void Transferir(double valor, Conta contaDestinataria)
+        {
+            contaDestinataria.Saldo += valor;
+            this.Saldo -= valor;
+        }
     }
 }

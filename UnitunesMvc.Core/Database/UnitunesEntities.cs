@@ -13,6 +13,8 @@ namespace UnitunesMvc.Core.Database.Entities
         private const string DB_PASS = "_43690";
         private const string DB_NAME = "Unitunes";
 
+        public const int USUARIO_ADMIN_ID = 1;
+
         public DbSet<Album> Albums { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Autor> Autores { get; set; }
@@ -21,7 +23,12 @@ namespace UnitunesMvc.Core.Database.Entities
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<ArquivoBinario> Binarios { get; set; }
         public DbSet<Conta> Contas { get; set; }
-        //public DbSet<Favoritos> Favoritos { get; set; }
+
+        public DbSet<UsuarioFavoritos> Favoritos { get; set; }
+
+        public DbSet<Midia> Midias { get; set;}
+
+        public DbSet<Carrinho> Carrinhos { get; set; }
 
         static UnitunesEntities()
         {
@@ -57,8 +64,11 @@ namespace UnitunesMvc.Core.Database.Entities
             try
             {
                 inserirUsuarios();
+                this.SaveChanges();
                 inserirCategorias();
+                this.SaveChanges();
                 inserirFilmes();
+                this.SaveChanges();
                 inserirMusicas();
                 inserirPodcasts();
                 inserirLivros();
@@ -77,8 +87,9 @@ namespace UnitunesMvc.Core.Database.Entities
         {
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Musica,
                 Nome = "Starway to heaven",
-                Tipo = TipoStreaming.Musica,
+                TipoStreaming = TipoStreaming.Musica,
                 Descricao = ".",
                 Duracao = 6,
                 CategoriaId = 23
@@ -86,8 +97,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Musica,
                 Nome = "Venus",
-                Tipo = TipoStreaming.Musica,
+                TipoStreaming = TipoStreaming.Musica,
                 Descricao = ".",
                 Duracao = 3,
                 CategoriaId = 13
@@ -95,8 +107,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Musica ,
                 Nome = "Buzios do coração",
-                Tipo = TipoStreaming.Musica,
+                TipoStreaming = TipoStreaming.Musica,
                 Descricao = ".",
                 Duracao = 4,
                 CategoriaId = 6
@@ -129,8 +142,9 @@ namespace UnitunesMvc.Core.Database.Entities
         {
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Podcast ,
                 Nome = "Nerdcast #123",
-                Tipo = TipoStreaming.Podcast,
+                TipoStreaming = TipoStreaming.Podcast,
                 Descricao = ".",
                 Duracao = 55,
                 CategoriaId = 19
@@ -138,8 +152,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Podcast,
                 Nome = "Rapaduracast #123",
-                Tipo = TipoStreaming.Podcast,
+                TipoStreaming = TipoStreaming.Podcast,
                 Descricao = ".",
                 Duracao = 55,
                 CategoriaId = 22
@@ -152,8 +167,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Video ,
                 Nome = "The Shawshank Redemption",
-                Tipo = TipoStreaming.Video,
+                TipoStreaming = TipoStreaming.Video,
                 Descricao = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
                 Duracao = 120,
                 CategoriaId = 14
@@ -161,8 +177,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Video,
                 Nome = "The Dark Knight",
-                Tipo = TipoStreaming.Video,
+                TipoStreaming = TipoStreaming.Video,
                 Descricao = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.",
                 Duracao = 120,
                 CategoriaId = 13
@@ -170,8 +187,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             this.Streamings.Add(new Streaming
             {
+                Tipo = TipoMidia.Video,
                 Nome = "The Lord of the Rings: The Return of the King",
-                Tipo = TipoStreaming.Video,
+                TipoStreaming = TipoStreaming.Video,
                 Descricao = "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
                 Duracao = 220,
                 CategoriaId = 12
@@ -211,9 +229,41 @@ namespace UnitunesMvc.Core.Database.Entities
 
         private void inserirUsuarios()
         {
-            this.Usuarios.Add(new Usuario { PrimeiroNome = "Admin", UltimoNome = "Admin", Email = "admin@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Administrador, Conta = new Conta { Saldo = 0 } });
-            this.Usuarios.Add(new Usuario { PrimeiroNome = "Academico", UltimoNome = "Random", Email = "academico@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Academico, Conta = new Conta { Saldo = 0 } });
-            this.Usuarios.Add(new Usuario { PrimeiroNome = "Autor", UltimoNome = "Random", Email = "autor@email.com", Senha = "qwerasd", Tipo = TipoUsuario.Academico, Conta = new Conta { Saldo = 0 } });
+            this.Usuarios.Add(new Usuario { PrimeiroNome = "Admin",
+                UltimoNome = "Admin", Email = "admin@email.com",
+                Senha = "qwerasd", Tipo = TipoUsuario.Administrador,
+                Conta = new Conta
+                {
+                    Saldo = 0
+                }
+              
+                });
+
+            this.Usuarios.Add(new Usuario
+            {
+                PrimeiroNome = "Adademico",
+                UltimoNome = "Random",
+                Email = "academico@email.com",
+                Senha = "qwerasd",
+                Tipo = TipoUsuario.Academico ,
+                Conta = new Conta
+                {
+                    Saldo = 0
+                }
+            });
+            this.Usuarios.Add(new Usuario
+            {
+                PrimeiroNome = "Autor",
+                UltimoNome = "Random",
+                Email = "autor@email.com",
+                Senha = "qwerasd",
+                Tipo = TipoUsuario.Administrador,
+                Conta = new Conta
+                {
+                    Saldo = 0
+                }
+            });
+            this.SaveChanges();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace UnitunesMvc.Core.Database.Entities
         public long Duracao { get; set; }
 
         [Required]
-        public TipoStreaming Tipo { get; set; }
+        public TipoStreaming TipoStreaming { get; set; }
+   
     }
 }

@@ -21,7 +21,7 @@ namespace UnitunesMvc.Controllers
         public ActionResult Index(string pesquisa, string categoria)
         {
             ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
-            var livros =  from l in db.Livros select l;
+            var livros =  from l in db.Livros.Include(x => x.Categoria) select l;
 
             if (!String.IsNullOrEmpty(pesquisa))
             {
@@ -35,6 +35,7 @@ namespace UnitunesMvc.Controllers
 
             return View(livros.ToList());
         }
+
 
         // GET: Livros/Details/5
         public ActionResult Details(int? id)
@@ -104,19 +105,6 @@ namespace UnitunesMvc.Controllers
             return View(livro);
         }
 
-        // GET: Livros/Edit/5
-        public ActionResult AddFavorito(int? id)
-        {
-            var usuario = new LoginViewModel().Buscar(User.Identity.Name);
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //var favoritos = db.Favoritos.Where(fav => fav.UsuarioId == usuario.Id).FirstOrDefault();
-            //favoritos.addLivro(db.Livros.Find(id));
-            
-            return View();
-        }
 
         // POST: Livros/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

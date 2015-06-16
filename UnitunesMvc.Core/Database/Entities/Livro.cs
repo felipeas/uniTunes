@@ -13,5 +13,10 @@ namespace UnitunesMvc.Core.Database.Entities
         [Required]
         [Display(Name = "Páginas")]
         public long NumeroPaginas { get; set; }
+
+        public Livro()
+        {
+            base.Tipo = TipoMidia.Livro;
+        }
     }
 }
