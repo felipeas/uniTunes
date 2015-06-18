@@ -4,8 +4,9 @@
     ViewBag.Title = "Carrinho";
 }
 
-<h2>Livros</h2>
-
+<h2>Carrinho</h2>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
 <table class="table">
     <tr>
         <th>
@@ -36,7 +37,6 @@
         </td>
     </tr>
 }
-
 </table>
 
 <dl class="dl-horizontal">
@@ -48,7 +48,6 @@
         @(ViewBag.SubTotal)
     </dd>
 </dl>
-
 <p>
     @Html.ActionLink("Comprar", "Comprar", new { id = ViewBag.CarrinhoId}) |
     @Html.ActionLink("Esvaziar", "Esvaziar", new { id = ViewBag.CarrinhoId })

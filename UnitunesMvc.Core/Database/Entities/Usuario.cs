@@ -70,7 +70,6 @@ namespace UnitunesMvc.Core.Database.Entities
 
         public Usuario()
         {
-            this.Conta = new Conta();
             this.Favoritos = new List<UsuarioFavoritos>();
         }
     }

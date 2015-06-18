@@ -8,7 +8,7 @@ namespace UnitunesMvc.Core.Database.Entities
 
     public class UnitunesEntities : DbContext
     {
-        private const string SERVIDOR = "localhost\\sqlexpress";
+        private const string SERVIDOR = ".";
         private const string DB_USER = "sa";
         private const string DB_PASS = "_43690";
         private const string DB_NAME = "Unitunes";
@@ -258,6 +258,7 @@ namespace UnitunesMvc.Core.Database.Entities
             this.Usuarios.Add(new Usuario { PrimeiroNome = "Admin",
                 UltimoNome = "Admin", Email = "admin@email.com",
                 Senha = "qwerasd", Tipo = TipoUsuario.Administrador,
+                Conta = new Conta { Saldo = 0}
             });
 
             this.Usuarios.Add(new Usuario
@@ -267,7 +268,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Email = "academico@email.com",
                 Senha = "qwerasd",
                 Tipo = TipoUsuario.Academico ,
-     
+                Conta = new Conta { Saldo = 0 }
             });
             this.Usuarios.Add(new Usuario
             {
@@ -276,7 +277,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Email = "autor@email.com",
                 Senha = "qwerasd",
                 Tipo = TipoUsuario.Administrador,
-       
+                Conta = new Conta { Saldo = 0 }
             });
             this.SaveChanges();
         }

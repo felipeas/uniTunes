@@ -16,7 +16,7 @@ namespace UnitunesMvc.Controllers
     {
         private UnitunesEntities db = new UnitunesEntities();
         // GET: Carrinho
-        public ActionResult Index()
+        public ActionResult Index(string erro)
         {
             var usuario = new LoginViewModel().Buscar(User.Identity.Name);
             var car = (from c in db.Carrinhos.Include(x => x.Items) where c.UsuarioId == usuario.Id select c).FirstOrDefault();
@@ -30,8 +30,15 @@ namespace UnitunesMvc.Controllers
             }
             var items = from ic in db.CarrinhoItems.Include(x => x.Midia) where ic.CarrinhoId == car.Id select ic;
             
+            if (erro != null)
+            {
+                ModelState.AddModelError("", erro);
+            }
+
             ViewBag.SubTotal = car.SubTotal;
             ViewBag.CarrinhoId = car.Id;
+
+
             return View(items.ToList());
         }
 
@@ -83,7 +90,8 @@ namespace UnitunesMvc.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Vendas", new { id = vendaId });
             }
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", "Carrinho", new { erro = "Pague o Aluguel" });
         }
 
         public ActionResult Esvaziar(int? id)

@@ -47,7 +47,7 @@ namespace UnitunesMvc.Core.Database.Entities
             double total = 0;
 
             var contaComprador = db.Contas.Find(this.Usuario.ContaId);
-
+            if (this.SubTotal > contaComprador.Saldo) return 0;
             foreach (var item in this.Items)
             {
                 var creditoAutor = (double)item.Midia.Preco * 0.9;
@@ -68,7 +68,6 @@ namespace UnitunesMvc.Core.Database.Entities
             }
             venda.Total = total;
             if (venda.Items.Count  == 0) return 0;
-            if (venda.Total > contaComprador.Saldo) return 0;
             
             db.Vendas.Add(venda);
             db.SaveChanges();
