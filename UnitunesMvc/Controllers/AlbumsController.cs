@@ -47,10 +47,11 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Titulo,Preco")] Album album)
+        public ActionResult Create([Bind(Include = "Id,Titulo,Preco,Data")] Album album)
         {
             if (ModelState.IsValid)
             {
+                album.Lancamento = System.DateTime.Now.Date.ToString("dd/MM/yyyy");
                 db.Albums.Add(album);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -79,7 +80,7 @@ namespace UnitunesMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Titulo,Preco")] Album album)
+        public ActionResult Edit([Bind(Include = "Id,Titulo,Preco,Lancamento")] Album album)
         {
             if (ModelState.IsValid)
             {

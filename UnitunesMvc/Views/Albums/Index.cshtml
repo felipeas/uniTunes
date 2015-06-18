@@ -9,6 +9,16 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<!-- TODO - Colocar a opção para list box das categorias -->
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ordenar <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+        <li>@Html.ActionLink("Todos", "Index", "Ordenar", new {tipo =0}, null)</li>
+        <li>@Html.ActionLink("Novos", "Index", "Ordenar", new { tipo = 1 }, null)</li>
+        <li>@Html.ActionLink("Recentes", "Index", "Ordenar", new { tipo = 2 }, null)</li>
+    </ul>
+</li>
 <table class="table">
     <tr>
         <th>
@@ -16,6 +26,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Preco)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamento)
         </th>
         <th></th>
     </tr>
@@ -28,6 +41,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Preco)
         </td>
+        <th>
+            @Html.DisplayFor(modelItem => item.Lancamento)
+        </th>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |

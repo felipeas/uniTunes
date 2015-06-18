@@ -13,9 +13,20 @@ namespace UnitunesMvc.Core.Database.Entities
         public int Id { get; set; }
         public string Titulo { get; set; }
         public decimal Preco { get; set; }
+        public string Lancamento { get; set; }
         public Categoria Genero { get; set; }
         public Autor Autor { get; set; }
         
         public List<Streaming> Musicas { get; set; }
+
+        public enum Categoria
+        {
+            [Display(Name = "Todos")]
+            Todos,
+            [Display(Name = "Novas")]
+            Novas,
+            [Display(Name = "Recentes")]
+            Recentes
+        }
     } 
 }
