@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<UnitunesMvc.Core.Database.Entities.CarrinhoItem>
 
+@{
+    ViewBag.Title = "Carrinho";
+}
+
 <h2>Livros</h2>
 
 <table class="table">
@@ -41,7 +45,12 @@
     </dt>
 
     <dd>
-        @Html.DisplayNameFor(model => model.Carrinho.SubTotal)
+        @(ViewBag.SubTotal)
     </dd>
-
 </dl>
+
+<p>
+    @Html.ActionLink("Comprar", "Comprar", new { id = ViewBag.CarrinhoId}) |
+    @Html.ActionLink("Esvaziar", "Esvaziar", new { id = ViewBag.CarrinhoId })
+</p>
+

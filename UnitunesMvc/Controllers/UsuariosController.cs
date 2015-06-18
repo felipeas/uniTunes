@@ -57,6 +57,7 @@ namespace UnitunesMvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.Tipo = TipoUsuario.Academico;
                 usuario.Conta = new Conta();
                 db.Usuarios.Add(usuario);
                 db.SaveChanges();

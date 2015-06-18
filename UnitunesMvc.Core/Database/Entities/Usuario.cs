@@ -63,7 +63,7 @@ namespace UnitunesMvc.Core.Database.Entities
 
         [NotMapped]
         [Display(Name = "Nome Completo")]
-        public string FullName
+        public string NomeCompleto
         {
             get{ return UltimoNome + ", " + PrimeiroNome ;}
         }

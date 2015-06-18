@@ -14,7 +14,7 @@ namespace UnitunesMvc.Core.Database.Entities
         public int Id { get; set; }
 
         [ForeignKey("Usuario")]
-        public int UsuarioID { get; set; }
+        public int UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
 
         [Required]
@@ -28,7 +28,7 @@ namespace UnitunesMvc.Core.Database.Entities
         public Double Total { get; set; }
         public Venda()
         {
-            this.Data = DateTime.Now.Date;
+            this.Data = DateTime.Now;
             this.Items = new List<VendaItem>();
         }
     }

@@ -71,7 +71,7 @@ namespace UnitunesMvc.Controllers
         {
             streaming.Tipo = m_tipoMidia;
             streaming.TipoStreaming = m_tipoStreaming;
-            streaming.Autor = new LoginViewModel().Buscar(User.Identity.Name);
+            streaming.AutorId = new LoginViewModel().Buscar(User.Identity.Name).Id;
             if (imagem != null && imagem.ContentLength > 0)
             {
                 streaming.Imagem = new ArquivoBinario();
@@ -116,12 +116,16 @@ namespace UnitunesMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Duracao,Tipo,Nome,Descricao,Preco,Imagem,Conteudo,CategoriaId")] Streaming streaming)
         {
+            streaming.Tipo = m_tipoMidia;
+            streaming.TipoStreaming = m_tipoStreaming;
+            streaming.AutorId = db.Streamings.Where(x => x.Id == streaming.Id).AsNoTracking().FirstOrDefault().AutorId;
             if (ModelState.IsValid)
             {
                 db.Entry(streaming).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             return View(streaming);
         }
 

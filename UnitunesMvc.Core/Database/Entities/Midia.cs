@@ -51,7 +51,8 @@ namespace UnitunesMvc.Core.Database.Entities
         [Display(Name = "Conteúdo")]
         public ArquivoBinario Conteudo { get; set; }
 
-        public Usuario Autor { get; set; }
+        [Display(Name = "Autor")]
+        public int AutorId { get; set; }
 
         public TipoMidia Tipo { get; set; }
     }

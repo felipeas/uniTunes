@@ -14,7 +14,6 @@ namespace UnitunesMvc.Core.Database.Entities
         [Key]
         public int Id { get; set; }
 
-        
         public int UsuarioId { get; set; }
 
         [ForeignKey("UsuarioId")]
@@ -31,7 +30,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 double subtotal = 0;
                 foreach(var item in this.Items)
                 {
-                    subtotal += item.Midia.Preco;
+                    subtotal += db.Midias.Find(item.MidiaId).Preco;
                 }
                 return subtotal;
             }
@@ -42,21 +41,24 @@ namespace UnitunesMvc.Core.Database.Entities
             this.Items = new List<CarrinhoItem>();
         }
 
-        public void CriarOrdem() {
+        public int EfetuarVenda() {
             var venda = new Venda();
-            venda.UsuarioID = this.UsuarioId;
+            venda.UsuarioId = this.UsuarioId;
             double total = 0;
+
+            var contaComprador = db.Contas.Find(this.Usuario.ContaId);
+
             foreach (var item in this.Items)
             {
                 var creditoAutor = item.Midia.Preco * 0.9;
                 var creditoAdmin = item.Midia.Preco * 0.1;
                 total += item.Midia.Preco;
 
-                var autor = item.Midia.Autor;
-                var administrador = db.Usuarios.Find(UnitunesEntities.USUARIO_ADMIN_ID);
+                var contaAutor = db.Contas.Find(item.Midia.AutorId);
+                var contaAdministrador = db.Contas.Find(UnitunesEntities.USUARIO_ADMIN_ID);
 
-                this.Usuario.Conta.Transferir(creditoAutor, autor.Conta);
-                this.Usuario.Conta.Transferir(creditoAdmin, administrador.Conta);
+                contaComprador.Transferir(creditoAutor, contaAutor);
+                contaComprador.Transferir(creditoAdmin, contaAdministrador);
 
                 venda.Items.Add(new VendaItem
                 {
@@ -65,7 +67,12 @@ namespace UnitunesMvc.Core.Database.Entities
                 });
             }
             venda.Total = total;
+            if (venda.Items.Count  == 0) return 0;
+            if (venda.Total > contaComprador.Saldo) return 0;
+            
+            db.Vendas.Add(venda);
             db.SaveChanges();
+            return venda.Id;
         }
 
         public void EsvaziarCarrinho()
@@ -76,6 +83,5 @@ namespace UnitunesMvc.Core.Database.Entities
             }
             db.SaveChanges();
         }
-
     }
 }

@@ -66,7 +66,7 @@ namespace UnitunesMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,NumeroPaginas,Nome,Descricao,Preco,CategoriaId")] Livro livro, HttpPostedFileBase imagem, HttpPostedFileBase conteudo)
         {
-            livro.Autor = new LoginViewModel().Buscar(User.Identity.Name);
+            livro.AutorId = new LoginViewModel().Buscar(User.Identity.Name).Id ;
             if (imagem != null && imagem.ContentLength > 0)
             {
                 livro.Imagem.Bytes = new byte[imagem.ContentLength];
@@ -113,12 +113,15 @@ namespace UnitunesMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,NumeroPaginas,Nome,Descricao,Preco,Imagem,Conteudo,CategoriaId")] Livro livro)
         {
+            livro.Tipo = m_tipoMidia;
+            livro.AutorId = db.Livros.Where(x => x.Id == livro.Id).AsNoTracking().FirstOrDefault().AutorId;
             if (ModelState.IsValid)
             {
                 db.Entry(livro).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Categorias = new CategoriaViewModel().DeterminarCategoriasViewBag(m_tipoMidia);
             return View(livro);
         }
 

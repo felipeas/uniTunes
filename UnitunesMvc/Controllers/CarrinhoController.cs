@@ -19,10 +19,19 @@ namespace UnitunesMvc.Controllers
         public ActionResult Index()
         {
             var usuario = new LoginViewModel().Buscar(User.Identity.Name);
-            var car = from c in db.Carrinhos.Include(x => x.Items) where c.UsuarioId == usuario.Id select c;
+            var car = (from c in db.Carrinhos.Include(x => x.Items) where c.UsuarioId == usuario.Id select c).FirstOrDefault();
 
-            var items = from ic in db.CarrinhoItems.Include(x => x.Midia) where ic.CarrinhoId == car.FirstOrDefault().Id select ic;
+            if (car == null)
+            {
+                car = new Carrinho();
+                car.UsuarioId = usuario.Id;
+                db.Carrinhos.Add(car);
+                db.SaveChanges();
+            }
+            var items = from ic in db.CarrinhoItems.Include(x => x.Midia) where ic.CarrinhoId == car.Id select ic;
             
+            ViewBag.SubTotal = car.SubTotal;
+            ViewBag.CarrinhoId = car.Id;
             return View(items.ToList());
         }
 
@@ -48,11 +57,48 @@ namespace UnitunesMvc.Controllers
                 db.SaveChanges();
             }
 
-            itemCarrinho = new CarrinhoItem() {MidiaId = (int)id };
+            itemCarrinho = new CarrinhoItem() { MidiaId = (int)id };
 
             carrinho.Items.Add(itemCarrinho);
             db.SaveChanges();
 
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Comprar(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var carrinho = db.Carrinhos.Where(x => x.Id == id).Include(x => x.Items).Include(y => y.Usuario).FirstOrDefault();
+           
+            var vendaId = 0;
+            if (carrinho != null) {
+                vendaId = carrinho.EfetuarVenda();
+            }
+            if (vendaId > 0)
+            {
+                return RedirectToAction("Details", "Vendas", new { id = vendaId });
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Esvaziar(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var car = db.Carrinhos.Where(x => x.Id == id).Include(x => x.Items).FirstOrDefault();
+            
+
+            if (car != null)
+            {
+                var items = from ic in db.CarrinhoItems.Include(x => x.Midia) where ic.CarrinhoId == car.Id select ic;
+                
+                car.EsvaziarCarrinho();
+            }
             return RedirectToAction("Index");
         }
     }

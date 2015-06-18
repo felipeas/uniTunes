@@ -8,7 +8,7 @@ namespace UnitunesMvc.Core.Database.Entities
 
     public class UnitunesEntities : DbContext
     {
-        private const string SERVIDOR = ".";
+        private const string SERVIDOR = "localhost\\sqlexpress";
         private const string DB_USER = "sa";
         private const string DB_PASS = "_43690";
         private const string DB_NAME = "Unitunes";
@@ -30,6 +30,7 @@ namespace UnitunesMvc.Core.Database.Entities
 
         public DbSet<Carrinho> Carrinhos { get; set; }
         public DbSet<CarrinhoItem> CarrinhoItems { get; set; }
+        public DbSet<Venda> Vendas { get; set; }
 
         static UnitunesEntities()
         {
@@ -40,7 +41,8 @@ namespace UnitunesMvc.Core.Database.Entities
             : base(MontarStringConexao())
         {
             this.Configuration.ValidateOnSaveEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;
+            this.Configuration.ProxyCreationEnabled = true;
+            this.Configuration.LazyLoadingEnabled = true;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -93,6 +95,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Musica,
                 Descricao = ".",
                 Duracao = 6,
+                AutorId = 1,
                 CategoriaId = 23
             });
 
@@ -103,6 +106,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Musica,
                 Descricao = ".",
                 Duracao = 3,
+                AutorId = 1,
                 CategoriaId = 13
             });
 
@@ -113,6 +117,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Musica,
                 Descricao = ".",
                 Duracao = 4,
+                AutorId = 1,
                 CategoriaId = 6
             });
 
@@ -126,6 +131,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Nome = "Harry Potter",
                 Descricao = ".",
                 NumeroPaginas = 323,
+                AutorId = 1,
                 CategoriaId = 9
             });
 
@@ -134,6 +140,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Nome = "Design Patterns: Elements of Reusable Object-Oriented Software",
                 Descricao = "gof",
                 NumeroPaginas = 555,
+                AutorId = 1,
                 CategoriaId = 11
             });
 
@@ -146,6 +153,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Tipo = TipoMidia.Podcast ,
                 Nome = "Nerdcast #123",
                 TipoStreaming = TipoStreaming.Podcast,
+                AutorId = 1,
                 Descricao = ".",
                 Duracao = 55,
                 CategoriaId = 19
@@ -157,6 +165,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Nome = "Rapaduracast #123",
                 TipoStreaming = TipoStreaming.Podcast,
                 Descricao = ".",
+                AutorId = 1,
                 Duracao = 55,
                 CategoriaId = 22
             });
@@ -173,6 +182,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Video,
                 Descricao = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
                 Duracao = 120,
+                AutorId = 1,
                 CategoriaId = 14
             });
 
@@ -183,6 +193,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Video,
                 Descricao = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.",
                 Duracao = 120,
+                AutorId = 1,
                 CategoriaId = 13
             });
 
@@ -193,6 +204,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Video,
                 Descricao = "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
                 Duracao = 220,
+                AutorId = 1,
                 CategoriaId = 12
             });
         }
@@ -233,12 +245,7 @@ namespace UnitunesMvc.Core.Database.Entities
             this.Usuarios.Add(new Usuario { PrimeiroNome = "Admin",
                 UltimoNome = "Admin", Email = "admin@email.com",
                 Senha = "qwerasd", Tipo = TipoUsuario.Administrador,
-                Conta = new Conta
-                {
-                    Saldo = 0
-                }
-              
-                });
+            });
 
             this.Usuarios.Add(new Usuario
             {
@@ -247,10 +254,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Email = "academico@email.com",
                 Senha = "qwerasd",
                 Tipo = TipoUsuario.Academico ,
-                Conta = new Conta
-                {
-                    Saldo = 0
-                }
+     
             });
             this.Usuarios.Add(new Usuario
             {
@@ -259,13 +263,12 @@ namespace UnitunesMvc.Core.Database.Entities
                 Email = "autor@email.com",
                 Senha = "qwerasd",
                 Tipo = TipoUsuario.Administrador,
-                Conta = new Conta
-                {
-                    Saldo = 0
-                }
+       
             });
             this.SaveChanges();
         }
+
+        public System.Data.Entity.DbSet<UnitunesMvc.Core.Database.Entities.VendaItem> VendaItems { get; set; }
     }
 }
 

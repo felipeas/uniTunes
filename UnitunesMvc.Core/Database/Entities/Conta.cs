@@ -20,6 +20,10 @@ namespace UnitunesMvc.Core.Database.Entities
         
         public void Transferir(double valor, Conta contaDestinataria)
         {
+            if (this.Id == contaDestinataria.Id)
+            {
+                return;
+            }
             contaDestinataria.Saldo += valor;
             this.Saldo -= valor;
         }
