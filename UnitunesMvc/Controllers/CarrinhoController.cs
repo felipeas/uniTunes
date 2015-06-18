@@ -71,14 +71,16 @@ namespace UnitunesMvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var carrinho = db.Carrinhos.Where(x => x.Id == id).Include(x => x.Items).Include(y => y.Usuario).FirstOrDefault();
+            var car = db.Carrinhos.Where(x => x.Id == id).Include(x => x.Items).Include(y => y.Usuario).FirstOrDefault();
            
             var vendaId = 0;
-            if (carrinho != null) {
-                vendaId = carrinho.EfetuarVenda();
+            if (car != null) {
+                vendaId = car.EfetuarVenda();
             }
             if (vendaId > 0)
             {
+                db.Carrinhos.Remove(car);
+                db.SaveChanges();
                 return RedirectToAction("Details", "Vendas", new { id = vendaId });
             }
             return RedirectToAction("Index");
@@ -92,12 +94,10 @@ namespace UnitunesMvc.Controllers
             }
             var car = db.Carrinhos.Where(x => x.Id == id).Include(x => x.Items).FirstOrDefault();
             
-
             if (car != null)
             {
-                var items = from ic in db.CarrinhoItems.Include(x => x.Midia) where ic.CarrinhoId == car.Id select ic;
-                
-                car.EsvaziarCarrinho();
+                db.Carrinhos.Remove(car);
+                db.SaveChanges();
             }
             return RedirectToAction("Index");
         }

@@ -23,7 +23,7 @@ namespace UnitunesMvc.Controllers
             {
                 return View(db.Vendas.ToList());
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

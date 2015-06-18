@@ -18,8 +18,12 @@ namespace UnitunesMvc.Controllers
         // GET: Vendas
         public ActionResult Index()
         {
-            return View();
+            var usuario = new LoginViewModel().Buscar(User.Identity.Name);
+            var vendas = db.Vendas.Where(x => x.UsuarioId == usuario.Id);
+       
+            return View(vendas.ToList());
         }
+    
 
         // GET: Contas/Details/5
         public ActionResult Details(int? id)
