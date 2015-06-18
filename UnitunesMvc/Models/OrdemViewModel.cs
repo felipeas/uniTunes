@@ -26,11 +26,8 @@ namespace UnitunesMvc.Models
             itens.Add(recenteItem);
             itens.Add(novoItem);
 
-            //IEnumerable<SelectListItem> listaEnumerada = null;
-
+            IEnumerable<SelectListItem> listaEnumerada = (IEnumerable<SelectListItem>) itens;
             
-
-
             return itens;
         }
     }

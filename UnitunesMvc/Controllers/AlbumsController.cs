@@ -27,7 +27,7 @@ namespace UnitunesMvc.Controllers
                 current_order = Ordem.Novo;
                
             ViewBag.Ordem = new OrdemViewModel().DeterminarOrdemViewBag(current_order);
-            var albuns = from l in db.Albums.Include(x => x.Lancamento) select l;
+            var albuns = from l in db.Albums.Include(x => x.Titulo) select l;          
 
             if (!String.IsNullOrEmpty(pesquisa))
             {
