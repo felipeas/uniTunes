@@ -7,7 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UnitunesMvc.Core.Database.Entities
 {
-    public class Album
+    public enum Ordem
+    {
+        [Display(Name = "Todos")]
+        Todos,
+        [Display(Name = "Recente")]
+        Recente,
+        [Display(Name = "Novo")]
+        Novo
+    }
+
+public class Album
     {
         [Key]
         public int Id { get; set; }
@@ -18,15 +28,5 @@ namespace UnitunesMvc.Core.Database.Entities
         public Autor Autor { get; set; }
         
         public List<Streaming> Musicas { get; set; }
-
-        public enum Categoria
-        {
-            [Display(Name = "Todos")]
-            Todos,
-            [Display(Name = "Novas")]
-            Novas,
-            [Display(Name = "Recentes")]
-            Recentes
-        }
     } 
 }

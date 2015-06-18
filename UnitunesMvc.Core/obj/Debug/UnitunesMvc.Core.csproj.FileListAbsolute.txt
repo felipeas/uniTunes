@@ -221,3 +221,4 @@ C:\Users\uilian\Development\uniTunes\UnitunesMvc.Core\obj\Debug\UnitunesMvc.Core
 C:\Users\uilian\Development\uniTunes\UnitunesMvc.Core\obj\Debug\UnitunesMvc.Core.csproj.GenerateResource.Cache
 C:\Users\uilian\Development\uniTunes\UnitunesMvc.Core\obj\Debug\UnitunesMvc.Core.dll
 C:\Users\uilian\Development\uniTunes\UnitunesMvc.Core\obj\Debug\UnitunesMvc.Core.pdb
+C:\Users\uilian\Development\uniTunes\UnitunesMvc.Core\bin\Debug\Newtonsoft.Json.xml

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using UnitunesMvc.Core.Database.Entities;
+using UnitunesMvc.Models;
 
 namespace UnitunesMvc.Controllers
 {
@@ -14,11 +15,33 @@ namespace UnitunesMvc.Controllers
     public class AlbumsController : Controller
     {
         private UnitunesEntities db = new UnitunesEntities();
-     
-        // GET: Albums
-        public ActionResult Index()
+
+        // GET: Albuns
+        public ActionResult Index(string pesquisa, string ordem)
         {
-            return View(db.Albums.ToList());
+            Ordem current_order = Ordem.Todos;
+
+            if (ordem == "Recente")
+                current_order = Ordem.Recente;
+            else if (ordem == "Novo")
+                current_order = Ordem.Novo;
+               
+            ViewBag.Ordem = new OrdemViewModel().DeterminarOrdemViewBag(current_order);
+            var albuns = from l in db.Albums.Include(x => x.Lancamento) select l;
+
+            if (!String.IsNullOrEmpty(pesquisa))
+            {
+                albuns = albuns.Where(s => s.Titulo.Contains(pesquisa));
+            }
+            if (current_order != Ordem.Todos)
+            {
+                if (current_order == Ordem.Novo)
+                    albuns = albuns.Where(s => (DateTime.Now - Convert.ToDateTime(s.Lancamento)).TotalDays <= 60);
+                else if (current_order == Ordem.Recente)
+                    albuns = albuns.Where(s => (DateTime.Now - Convert.ToDateTime(s.Lancamento)).TotalDays > 60);
+            }
+
+            return View(albuns.ToList());
         }
 
         // GET: Albums/Details/5
