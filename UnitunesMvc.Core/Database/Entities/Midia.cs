@@ -55,5 +55,24 @@ namespace UnitunesMvc.Core.Database.Entities
         public int AutorId { get; set; }
 
         public TipoMidia Tipo { get; set; }
+
+        public static string ContentType(TipoMidia tipo)
+        {
+            switch (tipo)
+            {
+                case TipoMidia.Musica:
+                    return "audio/mpeg";
+                case TipoMidia.Video:
+                    return "video/mpeg";
+                case TipoMidia.Podcast:
+                    return "audio/mpeg";
+                case TipoMidia.Livro:
+                    return "application/pdf";
+                default:
+                    break;
+            }
+
+            return String.Empty; 
+        }
     }
 }

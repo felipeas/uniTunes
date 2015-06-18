@@ -42,6 +42,25 @@ namespace UnitunesMvc.Controllers
 
             return new FileStreamResult(new System.IO.MemoryStream(), "image/png");
         }
+
+        [HttpGet]
+        public FileResult GetFile(string id)
+        {
+            if (!String.IsNullOrEmpty(id))
+            {
+                var intId = Convert.ToInt32(id);
+                var item = db.Binarios.Where(file => file.Id == intId).FirstOrDefault();
+
+                var contentType = Midia.ContentType(db.Midias.Find(intId).Tipo);
+                
+                var ms = new System.IO.MemoryStream(item.Bytes);
+                FileStreamResult result = new FileStreamResult(ms, contentType);
+                result.FileDownloadName = item.Id.ToString(); // or item.Id or something (3)
+                return result;
+            }
+
+            return null;
+        }
     }
 
     
