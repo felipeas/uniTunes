@@ -59,6 +59,7 @@ namespace UnitunesMvc.Controllers
             {
                 usuario.Tipo = TipoUsuario.Academico;
                 usuario.Conta = new Conta();
+				usuario.bloqueado = false;
                 db.Usuarios.Add(usuario);
                 db.SaveChanges();
                 return RedirectToAction("Index");

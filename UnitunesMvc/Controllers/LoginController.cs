@@ -41,6 +41,10 @@ namespace UnitunesMvc.Controllers
             var v = db.Usuarios.Where(a => a.Email.Equals(login.Email ) && a.Senha.Equals(login.Senha)).FirstOrDefault();
             if (v != null)
             {
+				if (v.bloqueado) {
+					return RedirectToAction("Login", "Login", new { erro = "Usuário bloqueado! Contate o administrador." });
+				}
+			
                 FormsAuthentication.RedirectFromLoginPage(login.Email, true);
                 return RedirectToAction("Index", "Home");
             }
