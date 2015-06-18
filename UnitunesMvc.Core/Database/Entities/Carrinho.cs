@@ -30,7 +30,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 double subtotal = 0;
                 foreach(var item in this.Items)
                 {
-                    subtotal += db.Midias.Find(item.MidiaId).Preco;
+                    subtotal += (double)db.Midias.Find(item.MidiaId).Preco;
                 }
                 return subtotal;
             }
@@ -50,9 +50,9 @@ namespace UnitunesMvc.Core.Database.Entities
 
             foreach (var item in this.Items)
             {
-                var creditoAutor = item.Midia.Preco * 0.9;
-                var creditoAdmin = item.Midia.Preco * 0.1;
-                total += item.Midia.Preco;
+                var creditoAutor = (double)item.Midia.Preco * 0.9;
+                var creditoAdmin = (double)item.Midia.Preco * 0.1;
+                total += (double)item.Midia.Preco;
 
                 var contaAutor = db.Contas.Find(item.Midia.AutorId);
                 var contaAdministrador = db.Contas.Find(UnitunesEntities.USUARIO_ADMIN_ID);
@@ -63,7 +63,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 venda.Items.Add(new VendaItem
                 {
                     MidiaId = item.MidiaId,
-                    Valor = item.Midia.Preco
+                    Valor = (double)item.Midia.Preco
                 });
             }
             venda.Total = total;

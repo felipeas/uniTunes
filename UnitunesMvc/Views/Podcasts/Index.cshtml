@@ -33,9 +33,6 @@
             @Html.DisplayNameFor(model => model.Duracao)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Tipo)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Nome)
         </th>
         <th>
@@ -53,9 +50,6 @@
             @Html.DisplayFor(modelItem => item.Duracao)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Tipo)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Nome)
         </td>
         <td>
@@ -68,7 +62,8 @@
             @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
             @Html.ActionLink("Remover", "Delete", new { id = item.Id }) |
-            @Html.ActionLink("Favoritar", "Add", "Favoritos", new { id = item.Id }, null)
+            @Html.ActionLink("Favoritar", "Add", "Favoritos", new { id = item.Id }, null) |
+            @Html.ActionLink("Carrinho", "Add", "Carrinho", new { id = item.Id }, null)
         </td>
     </tr>
 }

@@ -23,11 +23,8 @@ namespace UnitunesMvc.Core.Database.Entities
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<ArquivoBinario> Binarios { get; set; }
         public DbSet<Conta> Contas { get; set; }
-
         public DbSet<UsuarioFavoritos> Favoritos { get; set; }
-
         public DbSet<Midia> Midias { get; set;}
-
         public DbSet<Carrinho> Carrinhos { get; set; }
         public DbSet<CarrinhoItem> CarrinhoItems { get; set; }
         public DbSet<Venda> Vendas { get; set; }
@@ -52,6 +49,12 @@ namespace UnitunesMvc.Core.Database.Entities
 
         private static string MontarStringConexao()
         {
+
+            if (1 == 1)
+            {
+                return "Data Source=.\\SQLExpress;Integrated Security=true;AttachDbFilename = C:\\Pasta\\Unitunes.mdf; User Instance = true; ";
+            }
+                
             var cs = new StringBuilder();
 
             cs.AppendFormat("Server={0};", SERVIDOR);
@@ -96,6 +99,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Descricao = ".",
                 Duracao = 6,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 23
             });
 
@@ -107,6 +111,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Descricao = ".",
                 Duracao = 3,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 13
             });
 
@@ -118,6 +123,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Descricao = ".",
                 Duracao = 4,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 6
             });
 
@@ -132,6 +138,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Descricao = ".",
                 NumeroPaginas = 323,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 9
             });
 
@@ -141,6 +148,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Descricao = "gof",
                 NumeroPaginas = 555,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 11
             });
 
@@ -154,6 +162,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 Nome = "Nerdcast #123",
                 TipoStreaming = TipoStreaming.Podcast,
                 AutorId = 1,
+                Preco = 1,
                 Descricao = ".",
                 Duracao = 55,
                 CategoriaId = 19
@@ -166,6 +175,7 @@ namespace UnitunesMvc.Core.Database.Entities
                 TipoStreaming = TipoStreaming.Podcast,
                 Descricao = ".",
                 AutorId = 1,
+                Preco = 1,
                 Duracao = 55,
                 CategoriaId = 22
             });
@@ -180,9 +190,10 @@ namespace UnitunesMvc.Core.Database.Entities
                 Tipo = TipoMidia.Video ,
                 Nome = "The Shawshank Redemption",
                 TipoStreaming = TipoStreaming.Video,
-                Descricao = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                Descricao = "Two imprisoned men bond over a number of years.",
                 Duracao = 120,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 14
             });
 
@@ -191,9 +202,10 @@ namespace UnitunesMvc.Core.Database.Entities
                 Tipo = TipoMidia.Video,
                 Nome = "The Dark Knight",
                 TipoStreaming = TipoStreaming.Video,
-                Descricao = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.",
+                Descricao = "When the menace known as the Joker wreaks havoc.",
                 Duracao = 120,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 13
             });
 
@@ -202,9 +214,10 @@ namespace UnitunesMvc.Core.Database.Entities
                 Tipo = TipoMidia.Video,
                 Nome = "The Lord of the Rings: The Return of the King",
                 TipoStreaming = TipoStreaming.Video,
-                Descricao = "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+                Descricao = "Gandalf and Aragorn lead the World of Men against Sauron's army..",
                 Duracao = 220,
                 AutorId = 1,
+                Preco = 1,
                 CategoriaId = 12
             });
         }

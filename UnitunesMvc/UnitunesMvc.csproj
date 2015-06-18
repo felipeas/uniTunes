@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\CarrinhoController.cs" />
     <Compile Include="Controllers\ContasController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FavoritosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LivrosController.cs" />
@@ -173,6 +174,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\ModelBinder.cs" />
     <Compile Include="Models\CategoriaViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -253,6 +255,7 @@
     <Content Include="Views\Favoritos\Index.cshtml" />
     <Content Include="Views\Carrinho\Index.cshtml" />
     <Content Include="Views\Vendas\Details.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

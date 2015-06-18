@@ -36,7 +36,7 @@ namespace UnitunesMvc.Core.Database.Entities
         [Required]
         [Display(Name = "Preço")]
         [Range(0.01, Double.MaxValue, ErrorMessage = "Preço deve ser de pelo menos 0.01")]
-        public double Preco { get; set; }
+        public Decimal Preco { get; set; }
 
         [Display(Name = "Imagem")]
         public ArquivoBinario Imagem { get; set; }
