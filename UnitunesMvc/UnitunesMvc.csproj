@@ -176,6 +176,7 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ModelBinder.cs" />
     <Compile Include="Models\CategoriaViewModel.cs" />
+    <Compile Include="Models\OrdemViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
