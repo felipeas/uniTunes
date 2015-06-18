@@ -42,7 +42,7 @@ namespace UnitunesMvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var carrinho = db.Carrinhos.Where(x => x.UsuarioId == usuario.Id).Include(c => c.Items).FirstOrDefault();
+            var carrinho = db.Carrinhos.Where(x => x.UsuarioId == usuario.Id).FirstOrDefault();
 
             if (carrinho == null)
             {
