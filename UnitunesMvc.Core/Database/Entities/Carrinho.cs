@@ -74,14 +74,5 @@ namespace UnitunesMvc.Core.Database.Entities
             db.SaveChanges();
             return venda.Id;
         }
-
-        public void EsvaziarCarrinho()
-        {
-            foreach (var item in this.Items)
-            {
-                this.Items.Remove(item);
-            }
-            db.SaveChanges();
-        }
     }
 }

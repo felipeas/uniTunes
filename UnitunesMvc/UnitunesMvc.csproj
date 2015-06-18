@@ -257,6 +257,7 @@
     <Content Include="Views\Carrinho\Index.cshtml" />
     <Content Include="Views\Vendas\Details.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Vendas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

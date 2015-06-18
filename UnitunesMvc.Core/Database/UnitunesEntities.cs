@@ -50,10 +50,10 @@ namespace UnitunesMvc.Core.Database.Entities
         private static string MontarStringConexao()
         {
 
-            if (1 == 1)
-            {
-                return "Data Source=.\\SQLExpress;Integrated Security=true;AttachDbFilename = C:\\Pasta\\Unitunes.mdf; User Instance = true; ";
-            }
+            //if (1 == 1)
+            //{
+            //    return "Data Source=.\\SQLExpress;Integrated Security=true;AttachDbFilename = C:\\Pasta\\Unitunes.mdf; User Instance = true; ";
+            //}
                 
             var cs = new StringBuilder();
 
