@@ -17,6 +17,8 @@ namespace UnitunesMvc.Core.Database.Entities
         [Required]
         [Display(Name = "Saldo")]
         public double Saldo { get; set; }
+
+        public bool bloqueada { get; set; };
         
         public void Transferir(double valor, Conta contaDestinataria)
         {
